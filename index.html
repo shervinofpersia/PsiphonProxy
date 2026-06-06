@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>☬SHΞN™PROXY TERMINAL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;600&display=swap');
+
+        body {
+            background-color: #0d1117;
+            background-image: radial-gradient(ellipse at top, #1f2937 0%, #0d1117 80%);
+            background-attachment: fixed;
+            color: #c9d1d9;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        .glass-panel {
+            background: rgba(22, 27, 34, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .title-font { font-family: 'Rajdhani', sans-serif; }
+        
+        .title-gradient {
+            background: linear-gradient(180deg, #ffffff 0%, #a1a1aa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0px 2px 10px rgba(255,255,255,0.1);
+        }
+
+        .no-select { user-select: none; -webkit-user-select: none; }
+
+        .proxy-value {
+            color: #00FFFF;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-block;
+        }
+        .proxy-value:hover {
+            text-shadow: 0 0 12px rgba(0, 255, 255, 0.8);
+            transform: scale(1.03);
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #9ca3af;
+            transition: all 0.2s;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.5);
+            color: #ffffff;
+            box-shadow: 0 0 10px rgba(255,255,255,0.1);
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #6b7280; }
+
+        #toast {
+            visibility: hidden;
+            background: rgba(0, 255, 255, 0.15);
+            border: 1px solid #00FFFF;
+            color: #ffffff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 12px 24px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 20px;
+            transform: translate(-50%, 20px);
+            backdrop-filter: blur(8px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            transform: translate(-50%, 0);
+            bottom: 40px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center p-3 md:p-6">
+
+    <header class="w-full max-w-6xl text-center mb-8 mt-4 no-select px-2">
+        <h1 class="title-font text-4xl sm:text-5xl md:text-6xl font-bold title-gradient tracking-widest mb-2 whitespace-normal break-words">
+            ☬SHΞN™PROXY TERMINAL
+        </h1>
+        <p class="text-gray-500 text-xs sm:text-sm tracking-[0.2em] uppercase font-medium">
+            GitHub Actions Auto-Synced
+        </p>
+    </header>
+
+    <main class="w-full max-w-6xl flex-grow flex flex-col gap-6">
+        
+        <div class="glass-panel p-4 flex flex-col gap-4 w-full no-select">
+            <div class="flex flex-wrap justify-center gap-2" id="type-filters">
+                <button class="filter-btn active px-4 py-1.5 rounded text-xs sm:text-sm font-semibold tracking-wider" data-type="ALL">ALL TYPES</button>
+                <button class="filter-btn px-4 py-1.5 rounded text-xs sm:text-sm font-semibold" data-type="HTTP">HTTP</button>
+                <button class="filter-btn px-4 py-1.5 rounded text-xs sm:text-sm font-semibold" data-type="HTTPS">HTTPS</button>
+                <button class="filter-btn px-4 py-1.5 rounded text-xs sm:text-sm font-semibold" data-type="SOCKS5">SOCKS5</button>
+            </div>
+            
+            <div class="h-px w-full bg-white/5"></div>
+
+            <div class="flex flex-wrap justify-center gap-2" id="country-filters">
+                <button class="filter-btn active px-4 py-1.5 rounded text-xs sm:text-sm font-semibold" data-country="ALL">ALL COUNTRIES</button>
+                <button class="filter-btn px-4 py-1.5 rounded text-xs sm:text-sm font-semibold" data-country="US">🇺🇸 US</button>
+                <button class="filter-btn px-4 py-1.5 rounded text-xs sm:text-sm font-semibold" data-country="FI">🇫🇮 FI</button>
+                <button class="filter-btn px-4 py-1.5 rounded text-xs sm:text-sm font-semibold" data-country="DE">🇩🇪 DE</button>
+                <button class="filter-btn px-4 py-1.5 rounded text-xs sm:text-sm font-semibold" data-country="NL">🇳🇱 NL</button>
+                <button class="filter-btn px-4 py-1.5 rounded text-xs sm:text-sm font-semibold" data-country="IT">🇮🇹 IT</button>
+            </div>
+        </div>
+
+        <div class="flex justify-between items-center px-2 text-xs font-semibold tracking-wider text-gray-500 no-select uppercase">
+            <div class="flex items-center gap-2">
+                <span class="relative flex h-2.5 w-2.5">
+                  <span id="ping-ring" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                  <span id="ping-dot" class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+                </span>
+                <span id="status-text">Synced Local Data</span>
+            </div>
+            <div class="bg-white/5 px-3 py-1 rounded border border-white/10">
+                <span id="count-text">0</span> Proxies
+            </div>
+        </div>
+
+        <div class="glass-panel w-full overflow-hidden hidden md:block">
+            <table class="w-full text-sm text-left border-collapse">
+                <thead class="text-xs text-gray-400 uppercase bg-white/5 border-b border-white/10 no-select tracking-wider">
+                    <tr>
+                        <th class="px-6 py-4 font-semibold">IP : Port</th>
+                        <th class="px-6 py-4 font-semibold">Location</th>
+                        <th class="px-6 py-4 font-semibold">Type</th>
+                        <th class="px-6 py-4 font-semibold">Anonymity</th>
+                        <th class="px-6 py-4 text-center font-semibold">Uptime</th>
+                        <th class="px-6 py-4 text-right font-semibold">Last Checked</th>
+                    </tr>
+                </thead>
+                <tbody id="desktop-list" class="divide-y divide-white/5"></tbody>
+            </table>
+        </div>
+
+        <div id="mobile-list" class="grid grid-cols-1 gap-4 md:hidden"></div>
+
+    </main>
+
+    <footer class="w-full max-w-6xl mt-12 mb-6 py-6 border-t border-white/10 text-center no-select">
+        <a href="https://t.me/aishervin" target="_blank" class="inline-block transition-transform hover:scale-105 duration-300">
+            <span class="text-gray-500 text-sm tracking-[0.2em] font-medium">
+                Exclusive <span class="text-gray-300 font-bold title-font text-lg ml-1">☬SHΞN™</span> made
+            </span>
+        </a>
+    </footer>
+
+    <div id="toast" class="no-select title-font text-lg font-semibold tracking-wider"></div>
+
+    <script>
+        let proxiesData = [];
+        let currentType = "ALL";
+        let currentCountry = "ALL";
+
+        function getFlagEmoji(countryCode) {
+            if (!countryCode) return "🌐";
+            const codePoints = countryCode.toUpperCase().split('').map(char => 127397 + char.charCodeAt());
+            return String.fromCodePoint(...codePoints);
+        }
+
+        function formatTimeAgo(unix_ts) {
+            const seconds = Math.floor(Date.now() / 1000) - unix_ts;
+            if (seconds < 60) return `Just now`;
+            if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
+            return `${Math.floor(seconds / 3600)}h ago`;
+        }
+
+        function getUptimeColor(uptime) {
+            if (uptime >= 70) return 'text-green-400';
+            if (uptime >= 30) return 'text-yellow-400';
+            return 'text-red-400';
+        }
+
+        function getAnonBadge(anon) {
+            let base = "px-2 py-0.5 rounded text-[10px] sm:text-xs font-bold tracking-wider uppercase";
+            if (anon === 'ELITE') return `${base} text-purple-300 bg-purple-500/20 border border-purple-500/30`;
+            if (anon === 'ANON' || anon === 'ANONYMOUS') return `${base} text-blue-300 bg-blue-500/20 border border-blue-500/30`;
+            return `${base} text-gray-300 bg-gray-500/20 border border-gray-500/30`;
+        }
+
+        function renderProxies() {
+            const desktopBody = document.getElementById('desktop-list');
+            const mobileBody = document.getElementById('mobile-list');
+            desktopBody.innerHTML = '';
+            mobileBody.innerHTML = '';
+
+            const filteredData = proxiesData.filter(p => {
+                const matchType = currentType === "ALL" || p.type.toUpperCase() === currentType;
+                const matchCountry = currentCountry === "ALL" || p.cc.toUpperCase() === currentCountry;
+                return matchType && matchCountry;
+            });
+
+            document.getElementById('count-text').innerText = filteredData.length;
+
+            if (filteredData.length === 0) {
+                const emptyMsg = `<div class="p-8 text-center text-gray-500 w-full col-span-full">No proxies available yet. Please wait for GitHub action to run.</div>`;
+                desktopBody.innerHTML = `<tr><td colspan="6">${emptyMsg}</td></tr>`;
+                mobileBody.innerHTML = emptyMsg;
+                return;
+            }
+
+            filteredData.forEach(p => {
+                const ipPort = `${p.ip}:${p.port}`;
+                const flag = getFlagEmoji(p.cc);
+                const timeAgo = formatTimeAgo(p.checked_ts);
+                const uptimeColor = getUptimeColor(p.uptime);
+
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-white/5 transition-colors duration-200";
+                tr.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="proxy-value title-font text-lg" onclick="copyProxy('${ipPort}')">${ipPort}</span>
+                    </td>
+                    <td class="px-6 py-4 font-semibold text-gray-300 no-select"><span class="text-xl mr-2">${flag}</span>${p.cc}</td>
+                    <td class="px-6 py-4 font-medium text-gray-400 no-select">${p.type}</td>
+                    <td class="px-6 py-4 no-select"><span class="${getAnonBadge(p.anonymity)}">${p.anonymity}</span></td>
+                    <td class="px-6 py-4 text-center font-bold no-select ${uptimeColor}">${p.uptime}%</td>
+                    <td class="px-6 py-4 text-right font-medium text-gray-500 no-select">🕒 ${timeAgo}</td>
+                `;
+                desktopBody.appendChild(tr);
+
+                const card = document.createElement('div');
+                card.className = "glass-panel p-4 flex flex-col gap-3 relative overflow-hidden";
+                card.innerHTML = `
+                    <div class="flex justify-between items-start border-b border-white/5 pb-2">
+                        <span class="proxy-value title-font text-xl" onclick="copyProxy('${ipPort}')">${ipPort}</span>
+                        <div class="text-2xl ml-2">${flag}</div>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-400 font-medium no-select">${p.type} &bull; ${p.cc}</span>
+                        <span class="${getAnonBadge(p.anonymity)} no-select">${p.anonymity}</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs mt-1 no-select">
+                        <div class="text-gray-500">🕒 ${timeAgo}</div>
+                        <div class="font-bold ${uptimeColor}">Uptime: ${p.uptime}%</div>
+                    </div>
+                `;
+                mobileBody.appendChild(card);
+            });
+        }
+
+        function copyProxy(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const toast = document.getElementById("toast");
+                toast.innerHTML = `<span class="text-cyan-400">Copied:</span> ${text}`;
+                toast.className = "show";
+                if(window.toastTimer) clearTimeout(window.toastTimer);
+                window.toastTimer = setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 2000);
+            });
+        }
+
+        document.querySelectorAll('#type-filters .filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('#type-filters .filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                currentType = e.target.getAttribute('data-type');
+                renderProxies();
+            });
+        });
+
+        document.querySelectorAll('#country-filters .filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('#country-filters .filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                currentCountry = e.target.getAttribute('data-country');
+                renderProxies();
+            });
+        });
+
+        // سیستم لود دیتای لوکال
+        async function loadProxies() {
+            try {
+                // اضافه کردن timestamp برای جلوگیری از کش شدن فایل تو مرورگر
+                const response = await fetch('proxies.json?t=' + new Date().getTime());
+                if (!response.ok) throw new Error('Network response was not ok');
+                
+                proxiesData = await response.json();
+                
+                document.getElementById('status-text').innerText = "Synced Local Data";
+                document.getElementById('ping-ring').className = "animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75";
+                document.getElementById('ping-dot').className = "relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500";
+                
+            } catch (error) {
+                console.error("Error loading local proxies:", error);
+                document.getElementById('status-text').innerText = "Awaiting First Sync...";
+                document.getElementById('ping-ring').classList.remove('animate-ping', 'bg-green-400');
+                document.getElementById('ping-dot').className = "relative inline-flex rounded-full h-2.5 w-2.5 bg-yellow-500";
+            }
+            renderProxies();
+        }
+
+        loadProxies();
+    </script>
+</body>
+</html>
