@@ -2,8 +2,8 @@ name: Proxy Auto-Updater
 
 on:
   schedule:
-    - cron: '*/20 * * * *' # اجرا هر ۳۰ دقیقه
-  workflow_dispatch: # دکمه اجرای دستی تو گیت‌هاب
+    - cron: '*/20 * * * *'
+  workflow_dispatch:
 
 jobs:
   update-proxies:
@@ -18,8 +18,8 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install Dependencies
-        run: pip install requests
+      - name: Install Python Dependencies
+        run: pip install selenium beautifulsoup4
 
       - name: Run Scraper
         run: python scraper.py
@@ -29,5 +29,4 @@ jobs:
           git config --global user.name "GitHub Actions Bot"
           git config --global user.email "actions@github.com"
           git add proxies.json
-          # اگه تغییری بود کامیت کن، وگرنه رد شو
           git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update proxies [skip ci]" && git push)
