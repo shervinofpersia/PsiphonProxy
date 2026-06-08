@@ -6,7 +6,7 @@
 ![Psiphon](https://img.shields.io/badge/Optimized%20For-Psiphon-0088ff?style=for-the-badge&logo=psiphon)
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge)
 
-**لیست حرفه‌ای و به‌روز پروکسی‌های زنده برای Psiphon**
+**لیست حرفه‌ای و به‌روز پروکسی‌های مرغوب و تازه ساخت برای استفاده در کلاینتهای سایفون و شیروخورشید**
 
 
 ---
@@ -29,8 +29,8 @@
 
 ### 🚀 نحوه استفاده
 
-1. به صفحه زنده پروژه بروید:
-   👉 **[https://shervinofpersia.github.io/PsiphonProxy](https://shervinofpersia.github.io/PsiphonProxy)**
+1. به وبسایت پروژه بروید:
+   🚸 **[SHΞN PROXY HUB☬](https://shervinofpersia.github.io/PsiphonProxy)**
 
 2. کشور و نوع پروکسی مورد نظرتان را انتخاب کنید.
 
