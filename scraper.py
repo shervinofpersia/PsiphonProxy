@@ -1,3 +1,5 @@
+# === scraper.py ===
+
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -8,11 +10,12 @@ from bs4 import BeautifulSoup
 import json
 import time
 
-COUNTRIES = ['us', 'fi', 'de', 'nl', 'it']
+# لیست کشورهای جدید + قبلی‌ها
+COUNTRIES = ['us', 'fi', 'de', 'nl', 'it', 'ir', 'ar', 'ru', 'se', 'ae', 'ch', 'tr']
+
 all_proxies = []
 
 def fetch_proxies():
-    # تنظیمات مرورگر مخفی برای سرور گیت‌هاب
     chrome_options = Options()
     chrome_options.add_argument("--headless=new")
     chrome_options.add_argument("--no-sandbox")
@@ -25,38 +28,33 @@ def fetch_proxies():
         driver.get(url)
         
         try:
-            # منتظر موندن تا جدول لود بشه
-            WebDriverWait(driver, 10).until(
+            WebDriverWait(driver, 12).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "table tbody tr"))
             )
             
-            # تغییر نمایش به ۱۰۰ عدد
+            # تلاش برای نمایش ۱۰۰ ردیف
             try:
-                select_element = WebDriverWait(driver, 5).until(
+                select_element = WebDriverWait(driver, 6).until(
                     EC.presence_of_element_located((By.ID, "rowsPerPage"))
                 )
                 Select(select_element).select_by_value("100")
-                
-                # صبر تا جاوااسکریپت سایت ردیف‌های جدید رو به جدول اضافه کنه
-                WebDriverWait(driver, 5).until(
-                    lambda d: len(d.find_elements(By.CSS_SELECTOR, "table tbody tr")) > 15
+                WebDriverWait(driver, 6).until(
+                    lambda d: len(d.find_elements(By.CSS_SELECTOR, "table tbody tr")) > 10
                 )
             except Exception:
-                print(f"  -> Note: Could not expand to 100 rows (maybe list is short for this country).")
-                
-            time.sleep(1) # استراحت کوتاه برای اطمینان از رندر کامل
+                print(f"  -> Note: Could not expand to 100 rows for {cc.upper()}.")
             
-            # استخراج مستقیم از جدول
+            time.sleep(1.5)
+            
             soup = BeautifulSoup(driver.page_source, 'html.parser')
             rows = soup.select("table tbody tr")
             
-            print(f"  -> Found {len(rows)} rows on screen.")
+            print(f"  -> Found {len(rows)} rows.")
             
             for row in rows:
                 cols = row.find_all('td')
                 if len(cols) < 6: continue
                 
-                # پیدا کردن IP و Port
                 ip_port = cols[0].find('strong').get_text(strip=True) if cols[0].find('strong') else ""
                 if ":" not in ip_port: continue
                 ip, port = ip_port.split(':', 1)
@@ -80,7 +78,7 @@ def fetch_proxies():
 
     driver.quit()
     
-    # فیلتر تکراری‌ها
+    # حذف تکراری‌ها
     unique_proxies = {f"{p['ip']}:{p['port']}": p for p in all_proxies}.values()
     
     with open('proxies.json', 'w', encoding='utf-8') as f:
