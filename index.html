@@ -1,9 +1,11 @@
+```html
 <!DOCTYPE html>
 <html lang="fa" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>☬SHΞN PROXY HUB</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;600;700&display=swap');
@@ -20,6 +22,7 @@
             scroll-behavior: smooth;
         }
 
+        /* نوار لودینگ بسیار ظریف در بالای صفحه */
         #top-loader {
             position: fixed; top: 0; left: 0; height: 3px;
             background: linear-gradient(90deg, #00ffff, #0088ff);
@@ -27,23 +30,30 @@
             box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
         }
 
+        /* استایل اختصاصی گلس‌مورفیسم */
         .glass-panel {
             background: rgba(18, 24, 32, 0.65);
             backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 16px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
         }
 
         .title-font { font-family: 'Orbitron', sans-serif; }
+        
+        /* اعمال مستقیم گرادیانت متن روی اسپن‌ها برای رفع باگ غیب شدن */
         .title-gradient {
             background: linear-gradient(180deg, #ffffff 0%, #a1a1aa 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
         }
 
         .no-select { user-select: none; -webkit-user-select: none; }
 
+        /* افکت کپی روی مقادیر پروکسی */
         .proxy-value {
             font-weight: 700;
             cursor: pointer;
@@ -56,6 +66,7 @@
             text-shadow: 0 0 12px currentColor;
         }
 
+        /* دکمه‌های فیلتر نوع پروکسی */
         .type-btn {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -72,6 +83,7 @@
             transform: translateY(-1px);
         }
 
+        /* فیلترهای دایره‌ای کشورها */
         .country-wrapper { cursor: pointer; }
         .country-circle {
             background: rgba(255, 255, 255, 0.03);
@@ -92,7 +104,7 @@
             text-shadow: 0 0 6px rgba(0, 255, 255, 0.6);
         }
 
-        /* Custom Toast CSS */
+        /* توست پیام اختصاصی برای کپی موفق */
         #custom-toast {
             visibility: hidden;
             background: rgba(0, 255, 255, 0.15);
@@ -118,7 +130,7 @@
             bottom: 40px;
         }
 
-        /* Scroll To Top Button */
+        /* دکمه اسکرول به بالا */
         #scroll-top-btn {
             position: fixed;
             bottom: 30px;
@@ -149,17 +161,26 @@
             box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
             transform: translateY(-3px);
         }
+
+        /* زیباسازی اسکرول‌بار */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #374151; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-3 md:p-6 relative">
 
     <div id="top-loader"></div>
 
+    <!-- هدر ترمینال اصلاح شده به صورت خط به خط قرینه و منظم بدون شکستگی‌های ناخواسته -->
     <header class="w-full max-w-6xl text-center mb-8 mt-4 no-select">
-        <h1 class="title-font text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black title-gradient tracking-[0.15em]">
-            ☬SHΞN™ PROXY HUB
+        <h1 class="title-font font-black flex flex-col items-center gap-2">
+            <!-- اعمال مستقیم کلاس گرادیانت روی تک تک اسپن‌ها به صورت مجزا -->
+            <span class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl title-gradient tracking-[0.15em] block">☬SHΞN™</span>
+            <span class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl title-gradient tracking-[0.25em] block mt-1">PROXY HUB</span>
         </h1>
-        <p class="text-gray-400 text-xs sm:text-sm tracking-[0.2em] uppercase font-bold mt-3">
+        <p class="text-gray-400 text-xs sm:text-sm tracking-[0.2em] uppercase font-bold mt-4">
             Premium Fresh Proxy For Psiphon
         </p>
     </header>
@@ -168,6 +189,7 @@
         
         <div class="glass-panel p-6 flex flex-col gap-6 w-full">
             
+            <!-- فیلترهای نوع پروکسی -->
             <div class="flex flex-wrap justify-center gap-2 sm:gap-3" id="type-filters">
                 <button class="type-btn active px-5 py-2.5 rounded-xl text-sm font-semibold" data-type="ALL">ALL TYPES</button>
                 <button class="type-btn px-5 py-2.5 rounded-xl text-sm font-semibold" data-type="HTTP">HTTP</button>
@@ -177,6 +199,7 @@
 
             <div class="h-px w-full bg-white/5"></div>
 
+            <!-- فیلتر دایره‌ای کشورها -->
             <div class="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8" id="country-filters">
                 <div class="flex flex-col items-center gap-2 country-wrapper active" data-country="ALL">
                     <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center text-3xl country-circle">🌐</div>
@@ -188,7 +211,6 @@
                 <div class="flex flex-col items-center gap-2 country-wrapper" data-country="DE"><div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center text-3xl country-circle">🇩🇪</div><span class="text-xs font-bold tracking-widest country-label">DE</span></div>
                 <div class="flex flex-col items-center gap-2 country-wrapper" data-country="NL"><div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center text-3xl country-circle">🇳🇱</div><span class="text-xs font-bold tracking-widest country-label">NL</span></div>
                 <div class="flex flex-col items-center gap-2 country-wrapper" data-country="IT"><div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center text-3xl country-circle">🇮🇹</div><span class="text-xs font-bold tracking-widest country-label">IT</span></div>
-
                 <div class="flex flex-col items-center gap-2 country-wrapper" data-country="IR"><div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center text-3xl country-circle">🇮🇷</div><span class="text-xs font-bold tracking-widest country-label">IR</span></div>
                 <div class="flex flex-col items-center gap-2 country-wrapper" data-country="AR"><div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center text-3xl country-circle">🇦🇷</div><span class="text-xs font-bold tracking-widest country-label">AR</span></div>
                 <div class="flex flex-col items-center gap-2 country-wrapper" data-country="RU"><div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center text-3xl country-circle">🇷🇺</div><span class="text-xs font-bold tracking-widest country-label">RU</span></div>
@@ -199,6 +221,7 @@
             </div>
         </div>
 
+        <!-- نوار وضعیت -->
         <div class="flex justify-between items-center px-2 text-xs font-semibold tracking-wider text-gray-500 uppercase no-select">
             <div class="flex items-center gap-2">
                 <span class="relative flex h-2.5 w-2.5">
@@ -212,6 +235,7 @@
             </div>
         </div>
 
+        <!-- دسکتاپ -->
         <div class="glass-panel w-full overflow-hidden hidden md:block">
             <table class="w-full text-sm text-left border-collapse">
                 <thead class="text-xs text-gray-400 uppercase bg-white/5 border-b border-white/10 no-select tracking-wider">
@@ -228,23 +252,28 @@
             </table>
         </div>
 
+        <!-- موبایل -->
         <div id="mobile-list" class="grid grid-cols-1 gap-4 md:hidden"></div>
     </main>
 
+    <!-- فوتر با امضا شن‌سنس -->
     <footer class="w-full max-w-6xl mt-12 mb-6 py-6 border-t border-white/10 text-center no-select">
-        <a href="https://t.me/aishervin" target="_blank" class="inline-block hover:scale-105 transition-transform">
+        <a href="https://t.me/shervini" target="_blank" class="inline-block hover:scale-105 transition-transform">
             <span class="text-gray-500 text-xs sm:text-sm tracking-[0.2em] font-medium">
-                Exclusive <span class="text-gray-200 font-bold title-font text-lg">☬SHΞN™</span> made
+                Exclusive <span class="text-gray-200 font-bold title-font text-lg ml-1">☬SHΞN™</span> made
             </span>
         </a>
     </footer>
 
+    <!-- توست اختصاصی -->
     <div id="custom-toast" class="no-select title-font text-lg font-semibold tracking-wider"></div>
 
+    <!-- دکمه بازگشت به بالا -->
     <button id="scroll-top-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})" aria-label="Scroll to top">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
     </button>
 
+    <!-- پاپ‌آپ هوشمند کانال تلگرام -->
     <div id="tg-modal" class="fixed inset-0 z-[9999] hidden flex items-center justify-center bg-black/80 backdrop-blur-sm transition-opacity no-select">
         <div class="glass-panel p-8 text-center max-w-md w-full mx-4 border-cyan-500/30">
             <h3 class="text-xl sm:text-2xl font-bold text-white mb-2 leading-relaxed">Please Subscribe My Telegram Channel To Continue</h3>
@@ -257,13 +286,14 @@
     </div>
 
     <script>
+        // لودینگ بار اول صفحه
         window.addEventListener('DOMContentLoaded', () => {
             const loader = document.getElementById('top-loader');
             loader.style.width = '100%';
             setTimeout(() => loader.style.opacity = '0', 1200);
         });
 
-        // Scroll To Top Logic
+        // دکمه جامپ به بالا
         window.addEventListener('scroll', () => {
             const btn = document.getElementById('scroll-top-btn');
             if (window.scrollY > document.body.scrollHeight / 3) {
@@ -273,15 +303,15 @@
             }
         });
 
-        // Telegram Modal Logic (40 Seconds)
+        // مکانیزم پاپ‌آپ تلگرام
         setTimeout(() => {
-            if (!localStorage.getItem('shervin_tg_flag')) {
+            if (!localStorage.getItem('shervin_tg_flag_v3')) {
                 document.getElementById('tg-modal').classList.remove('hidden');
             }
         }, 40000);
 
         function handleTgSub() {
-            localStorage.setItem('shervin_tg_flag', 'true');
+            localStorage.setItem('shervin_tg_flag_v3', 'true');
             document.getElementById('tg-modal').classList.add('hidden');
             window.open('https://t.me/aishervin', '_blank');
         }
@@ -316,7 +346,6 @@
             return `${base} text-gray-300 bg-gray-500/20 border border-gray-500/30`;
         }
 
-        // رندر کاملاً اصلاح شده بدون ساختارهای خراب ریجکشن
         function renderProxies() {
             const desktopBody = document.getElementById('desktop-list');
             const mobileBody = document.getElementById('mobile-list');
@@ -332,7 +361,7 @@
             document.getElementById('count-text').innerText = filteredData.length;
 
             if (filteredData.length === 0) {
-                const msg = `<div class="p-8 text-center text-gray-500 col-span-full">No proxies found.</div>`;
+                const msg = `<div class="p-8 text-center text-gray-500 col-span-full">No proxies found. Please check filters.</div>`;
                 desktopBody.innerHTML = `<tr><td colspan="6">${msg}</td></tr>`;
                 mobileBody.innerHTML = msg;
                 return;
@@ -344,13 +373,13 @@
                 const timeAgo = formatTimeAgo(p.checked_ts);
                 const qualityColor = getQualityColor(p.uptime);
 
-                // Premium Badge Logic
+                // ایجاد بج پرمیوم فقط برای الیت‌های دارای آپتایم ۱۰۰٪
                 let premiumBadge = '';
                 if (p.anonymity.toUpperCase() === 'ELITE' && p.uptime === 100) {
                     premiumBadge = `<span class="ml-2 px-1.5 py-0.5 rounded text-[9px] font-bold tracking-widest text-yellow-300 bg-yellow-500/20 border border-yellow-500/30 uppercase align-middle whitespace-nowrap">Premium Paid</span>`;
                 }
 
-                // Desktop Row
+                // دسکتاپ
                 const tr = document.createElement('tr');
                 tr.className = "hover:bg-white/5 transition-colors border-b border-white/5 last:border-0";
                 tr.innerHTML = `
@@ -366,7 +395,7 @@
                 `;
                 desktopBody.appendChild(tr);
 
-                // Mobile Card
+                // موبایل
                 const card = document.createElement('div');
                 card.className = "glass-panel p-4 flex flex-col gap-3 relative overflow-hidden";
                 card.innerHTML = `
@@ -390,7 +419,7 @@
             });
         }
 
-        // Event Listeners
+        // هندل کردن فیلترها
         document.querySelectorAll('#type-filters .type-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('#type-filters .type-btn').forEach(b => b.classList.remove('active'));
@@ -412,13 +441,23 @@
         async function loadProxies() {
             try {
                 const res = await fetch('proxies.json?t=' + Date.now());
+                if (!res.ok) throw new Error("File not found");
                 proxiesData = await res.json();
             } catch (e) {
-                console.log("Using fallback data");
+                console.log("Using rich fallback database for preview...");
                 proxiesData = [
                     { ip: "216.9.225.157", port: 3128, type: "HTTPS", anonymity: "ELITE", cc: "US", uptime: 100, checked_ts: Math.floor(Date.now() / 1000) - 120 },
                     { ip: "135.181.10.44", port: 8080, type: "HTTP", anonymity: "TRANS", cc: "FI", uptime: 42, checked_ts: Math.floor(Date.now() / 1000) - 1200 },
-                    { ip: "45.131.64.181", port: 3128, type: "HTTP", anonymity: "ANON", cc: "DE", uptime: 67, checked_ts: Math.floor(Date.now() / 1000) - 600 }
+                    { ip: "45.131.64.181", port: 3128, type: "HTTP", anonymity: "ANON", cc: "DE", uptime: 67, checked_ts: Math.floor(Date.now() / 1000) - 600 },
+                    { ip: "185.20.100.12", port: 8443, type: "HTTPS", anonymity: "ELITE", cc: "NL", uptime: 100, checked_ts: Math.floor(Date.now() / 1000) - 90 },
+                    { ip: "213.14.55.99", port: 3128, type: "HTTPS", anonymity: "ELITE", cc: "IT", uptime: 25, checked_ts: Math.floor(Date.now() / 1000) - 3600 },
+                    { ip: "185.109.244.69", port: 8080, type: "HTTPS", anonymity: "ELITE", cc: "IR", uptime: 95, checked_ts: Math.floor(Date.now() / 1000) - 150 },
+                    { ip: "190.210.12.34", port: 1080, type: "SOCKS5", anonymity: "ANON", cc: "AR", uptime: 100, checked_ts: Math.floor(Date.now() / 1000) - 40 },
+                    { ip: "95.52.124.90", port: 3128, type: "HTTP", anonymity: "TRANS", cc: "RU", uptime: 15, checked_ts: Math.floor(Date.now() / 1000) - 2400 },
+                    { ip: "89.34.220.11", port: 1080, type: "SOCKS5", anonymity: "ELITE", cc: "SE", uptime: 100, checked_ts: Math.floor(Date.now() / 1000) - 80 },
+                    { ip: "91.74.12.45", port: 8080, type: "HTTPS", anonymity: "ANON", cc: "AE", uptime: 82, checked_ts: Math.floor(Date.now() / 1000) - 900 },
+                    { ip: "179.38.2.140", port: 1080, type: "SOCKS5", anonymity: "ELITE", cc: "CH", uptime: 89, checked_ts: Math.floor(Date.now() / 1000) - 100 },
+                    { ip: "193.140.23.12", port: 3128, type: "HTTP", anonymity: "TRANS", cc: "TR", uptime: 55, checked_ts: Math.floor(Date.now() / 1000) - 110 }
                 ];
             }
             renderProxies();
@@ -442,3 +481,5 @@
     </script>
 </body>
 </html>
+
+```
